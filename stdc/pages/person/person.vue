@@ -7,7 +7,7 @@
 			</view>
 			<view class="down">
 				<view class="balance">余额:¥{{user.balance}}</view>
-				<view class="recharge" @click="inputDialogToggle" style="text-decoration:underline">充值</view>
+				<view class="recharge" @tap="openModal" style="text-decoration:underline">充值</view>
 			</view>
 			<view>
 				<!-- 输入框示例 -->
@@ -31,13 +31,19 @@
 				<text style="align-right">评价</text>
 			</view>
 		</view>
+		<payKeyboard v-if="showKeyBoard" title="Mi安全键盘" @success="enterSuccess" @close="close"></payKeyboard>
 	</view>
 </template>
 
 <script>
+	import payKeyboard from '@/components/mi-payKeyboard/mi-payKeyboard.vue'
 	export default {
+		components: {
+			payKeyboard
+		},
 		data() {
 			return {
+				showKeyBoard: false,
 				user: {}
 			}
 		},
@@ -45,6 +51,19 @@
 			this.user = uni.getStorageSync('user');
 		},
 		methods: {
+			// 打开输入框
+			openModal() {
+				this.showKeyBoard = true
+			},
+			// 输入正确的回调
+			enterSuccess(password) {
+				console.log(password) // 输入的密码
+				this.showKeyBoard = false
+			},
+			// 点击[取消] 关闭输入框 的回调
+			close() {
+				this.showKeyBoard = false
+			},
 			logOut() {
 				uni.removeStorageSync('user')
 				uni.removeStorageSync('carts')
@@ -60,7 +79,7 @@
 				//console.log(this.user.balance);
 				//console.log(JSON.stringify(this.user))
 				uni.request({
-					url: "http://localhost:80/api/recharge",
+					url: this.$baseUrl + "api/recharge",
 					method: 'post',
 					data: {
 						userId: this.user.userId,
@@ -98,7 +117,7 @@
 			},
 			gotoAddress() {
 				uni.navigateTo({
-					url:'/pages/address/address'
+					url: '/pages/address/address'
 				});
 			},
 			gotoComment() {
