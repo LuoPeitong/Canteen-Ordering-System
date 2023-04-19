@@ -50,7 +50,7 @@
 			},
 			editButton() {
 				uni.request({
-					url: "http://localhost:80/api/addAddress",
+					url: this.$baseUrl + "api/addAddress",
 					method: 'post',
 					data: {
 						addressId: this.address.addressId,
@@ -80,7 +80,7 @@
 			},
 			delButton() {
 				uni.request({
-					url: "http://localhost:80/api/delAddress",
+					url: this.$baseUrl + "api/delAddress",
 					method: 'post',
 					data: {
 						addressId: this.address.addressId

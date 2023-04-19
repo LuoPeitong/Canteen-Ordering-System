@@ -35,7 +35,7 @@
 				if(this.password == this.password2)
 				{
 					uni.request({
-						url:"http://localhost:80/api/register",
+						url:this.$baseUrl + "api/register",
 						method:'post',
 						data:{
 							username:this.username,

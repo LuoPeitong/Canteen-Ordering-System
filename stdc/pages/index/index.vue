@@ -23,8 +23,6 @@
 						<label :class="item.listStare?'cuIcon-fold':'cuIcon-unfold'"></label>
 					</view>
 					<!-- 二级循环 -->
-					<!--<view class="pronames_two" v-for="(item2,index2) in item.positiontwo" :key="index2"
-						:class="item2.twoliststare?'twoshow':'twohide'">-->
 					<view class="pronames_two" v-for="(item2,index2) in item.canteenList" :key="index2">
 						<view class="pronames-two-label" @click="twolist(index,index2)">
 							<text>{{item2.floor}}</text>
@@ -64,7 +62,6 @@
 				],
 				positionSele: true,
 				positionlist: []
-				//positionlist: [{id: 0,onename: "北区食堂",oneliststare: false,positiontwo: [{twoid: 0,twoname: "一楼自选餐厅",//twoliststare: false}, {twoid: 1,twoname: "二楼自助餐厅",//twoliststare: false}, {twoid: 2,twoname: "三楼小吃城",//twoliststare: false}, {twoid: 3,twoname: "四楼清真食堂",//twoliststare: false}]}, {id: 1,onename: "中区食堂",oneliststare: false,positiontwo: [{twoid: 0,twoname: "一楼餐厅",//twoliststare: false}, {twoid: 1,twoname: "二楼餐厅",//twoliststare: false}]}]
 			}
 		},
 		methods: {
@@ -98,7 +95,7 @@
 		onLoad() {
 			this.user = uni.getStorageSync('user');
 			uni.request({
-				url: "http://localhost:80/api/getCanteen",
+				url: this.$baseUrl + "api/getCanteen",
 				method: 'post',
 				header: {
 					'content-type': 'application/json'
@@ -120,6 +117,7 @@
 	.container {
 		background-color: #F0F0F0;
 	}
+
 	.head {
 		height: 25px;
 	}

@@ -56,7 +56,7 @@
 		mounted() {
 			var user = uni.getStorageSync('user');
 			uni.request({
-				url: "http://localhost:80/api/getAddress",
+				url: this.$baseUrl + "api/getAddress",
 				method: 'post',
 				data: {
 					userId: user.userId
@@ -148,7 +148,7 @@
 				}
 				var user = uni.getStorageSync('user');
 				uni.request({
-					url: "http://localhost:80/api/Settlement",
+					url: this.$baseUrl + "api/Settlement",
 					method: 'post',
 					data: {
 						carts: this.carts,

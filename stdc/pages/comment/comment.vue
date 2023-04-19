@@ -42,7 +42,7 @@
 		mounted() {
 			var user = uni.getStorageSync('user');
 			uni.request({
-				url: "http://localhost:80/api/getListByUser",
+				url: this.$baseUrl + "api/getListByUser",
 				method: 'post',
 				data: {
 					userId: user.userId
@@ -62,7 +62,7 @@
 			delButton(value){
 				console.log(value);
 				uni.request({
-					url: "http://localhost:80/api/delComment",
+					url: this.$baseUrl + "api/delComment",
 					method: 'post',
 					data: {
 						commentId:value

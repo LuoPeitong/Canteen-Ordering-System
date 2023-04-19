@@ -35,7 +35,7 @@
 			commentButton(value) {
 				var user = uni.getStorageSync('user');
 				uni.request({
-					url: "http://localhost:80/api/addComment",
+					url: this.$baseUrl + "api/addComment",
 					method: 'post',
 					data: {
 						userId: user.userId,

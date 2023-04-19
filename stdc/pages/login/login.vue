@@ -32,15 +32,14 @@
 		},
 		methods: {
 			getUsername: function(event) {
-				this.username = event.detail.value,
-				console.log(this.username)
+				this.username = event.detail.value
 			},
 			getPassword: function(event) {
 				this.password = event.detail.value
 			},
 			login() {
 				uni.request({
-					url: "http://localhost:80/api/login",
+					url: this.$baseUrl + "api/login",
 					method: 'post',
 					data: {
 						username: this.username,

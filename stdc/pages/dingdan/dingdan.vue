@@ -32,7 +32,7 @@
 			var user = uni.getStorageSync('user');
 			//console.log(JSON.stringify(user))
 			uni.request({
-				url: "http://localhost:80/api/getPersonalOrder",
+				url: this.$baseUrl + "api/getPersonalOrder",
 				method: 'post',
 				data: {
 					userId: user.userId

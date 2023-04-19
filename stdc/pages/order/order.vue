@@ -110,7 +110,7 @@
 				var user = uni.getStorageSync('user');
 				//console.log(JSON.stringify(user))
 				uni.request({
-					url: "http://localhost:80/api/Settlement",
+					url: this.$baseUrl + "api/Settlement",
 					method: 'post',
 					data: {
 						carts: this.carts,
