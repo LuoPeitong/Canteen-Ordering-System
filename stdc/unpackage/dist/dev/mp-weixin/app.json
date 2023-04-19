@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/register/register",
+    "pages/index/index",
+    "pages/person/person",
+    "pages/gwc/gwc",
+    "pages/order/order",
+    "pages/dingdan/dingdan",
+    "pages/address/address",
+    "pages/comment/comment",
+    "pages/address/editAddress/editAddress",
+    "pages/comment/addComment/addComment"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "borderStyle": "black",
+    "backgroundColor": "#F7F7F7",
+    "color": "#000000",
+    "selectedColor": "#07C160",
+    "list": [
+      {
+        "iconPath": "static/icon/index.png",
+        "selectedIconPath": "static/icon/s_index.png",
+        "text": "首页",
+        "pagePath": "pages/index/index"
+      },
+      {
+        "iconPath": "static/icon/person.png",
+        "selectedIconPath": "static/icon/s_person.png",
+        "text": "个人主页",
+        "pagePath": "pages/person/person"
+      },
+      {
+        "iconPath": "static/icon/gwc.png",
+        "selectedIconPath": "static/icon/s_gwc.png",
+        "text": "购物车",
+        "pagePath": "pages/gwc/gwc"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

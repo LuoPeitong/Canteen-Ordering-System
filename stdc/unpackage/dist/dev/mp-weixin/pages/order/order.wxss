@@ -1,0 +1,131 @@
+
+.content {
+	/*能够扩展和收缩 flex 容器内的元素，以最大限度地填充可用空间。*/
+	display: flex;
+	/*主轴为垂直方向，起点在上沿。（从上往下）*/
+	flex-direction: column;
+	/*将弹性 <div> 元素的所有项目的居中对齐：*/
+	align-items: center;
+	/*在容器中央对齐弹性项目：*/
+	justify-content: center;
+	
+	background-color: #F0F0F0;
+}
+.scroll_box {
+	display: flex;
+	height: 100%;
+}
+.left_box {
+	width: 100%;
+}
+.left_item {
+	height: 80rpx;
+}
+
+/*.select {
+	background-color: #4CD964;
+}*/
+.head {
+	width: 100%;
+	height: 150px;
+	background: #F0F0F0;
+}
+.head-top {
+	width: 100%;
+	height: 90px;
+}
+.head-bottom {
+	width: 100%;
+	height: 40px;
+}
+.top-left {
+	width: 60px;
+	height: 60px;
+	margin-top: 10px;
+	margin-left: 5px;
+	float: left;
+}
+.top-right {
+	width: 200px;
+	height: 40px;
+	float: right;
+	margin-right: 60px;
+	margin-top: 20px;
+}
+.main {
+	width: 100%;
+	height: 430px;
+}
+.main-left {
+	height: 100%;
+	width: 28%;
+	float: left;
+	background-color: #CCFFFF;
+}
+.main-right {
+	width: 68%;
+	height: 100%;
+	float: right;
+}
+.main-right-top {
+	width: 100%;
+	height: 85%;
+}
+.main-right-bottom {
+	width: 100%;
+	height: 13%;
+	margin-top: 4px;
+}
+.main-right-bottom-right {
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+.main-right-bottom-left {
+	width: 50%;
+	height: 100%;
+	/*float: left;*/
+	float:right;
+}
+.s_main {
+	width: 90%;
+	height: 70px;
+	margin-left: 7px;
+	margin-bottom: 10px;
+	background-color: #CCFFFF;
+	border-radius: 10px;
+}
+.s_main_left {
+	width: 28%;
+	height: 80%;
+	margin-left: 5px;
+	margin-top: 5px;
+	float: left;
+}
+.s_main_right {
+	width: 62%;
+	height: 80%;
+	float: right;
+	margin-top: 5px;
+	border-radius: 10px;
+}
+.name {
+	width: 90px;
+	height: 25px;
+}
+.price {
+	width: 50px;
+	height: 25px;
+	float: left;
+}
+.quantity {
+	width: 80px;
+	height: 25px;
+	float: left;
+}
+image {
+	margin-left: 15px;
+	width: 70px;
+	height: 70px;
+}
+

@@ -1,0 +1,95 @@
+
+.container {
+	/*能够扩展和收缩 flex 容器内的元素，以最大限度地填充可用空间。*/
+	display: flex;
+	/*主轴为垂直方向，起点在上沿。（从上往下）*/
+	flex-direction: column;
+	/*将弹性 <div> 元素的所有项目的居中对齐：*/
+	align-items: center;
+	/*在容器中央对齐弹性项目：*/
+	justify-content: center;
+	background-color: #F0F0F0;
+}
+.top {
+	width: 100%;
+	height: 520px;
+}
+.foot {
+	width: 100%;
+	height: 50px;
+
+	background-color: #F9F9F9;
+}
+.dishes {
+	width: 85%;
+	height: 80px;
+	margin-top: 15px;
+	margin-left: 20px;
+	border-radius: 10px;
+	background-color: #F9F9F9;
+}
+.selectBox {
+	width: 20px;
+	height: 20px;
+	float: left;
+	margin-top: 25px;
+	margin-left: 10px;
+}
+.picBox {
+	width: 60px;
+	height: 60px;
+	margin-left: 5px;
+	margin-top: 5px;
+	float: left;
+}
+.thirdBox {
+	width: 100px;
+	height: 70px;
+	margin-left: 15px;
+	margin-top: 1px;
+	float: left;
+}
+.fourthBox {
+	width: 70px;
+	height: 70px;
+	margin-left: 10px;
+	margin-top: 1px;
+	float: left;
+}
+.cuisineBox {
+	width: 100%;
+	height: 30px;
+	margin-top: 3px;
+}
+.numberBox {
+	width: 100%;
+	height: 30px;
+	margin-top: 5px;
+}
+.priceBox {
+	width: 100%;
+	height: 30px;
+
+	margin-top: 5px;
+}
+.foot-left {
+	width: 50%;
+	float: left;
+}
+.foot-right {
+	width: 50%;
+	float: left;
+}
+.inputWrapper {
+	width: 60%;
+	height: 80rpx;
+	box-sizing: border-box;
+	margin-top: 25px;
+}
+.selectInput {
+	margin-top: 10px;
+	margin-left: 50px;
+	width: 70%;
+	background-color: white;
+}
+
