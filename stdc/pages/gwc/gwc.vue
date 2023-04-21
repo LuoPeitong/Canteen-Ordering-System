@@ -33,17 +33,23 @@
 			</view>
 			<view class="foot-right">
 				<text>总价:¥{{total}}</text>
-				<button type="primary" plain="true" @click="gotoSettlement"
+				<button type="primary" plain="true" @click="openModal"
 					style="height:100%;width:50%; float:right">结算</button>
 			</view>
 		</view>
+		<payKeyboard v-if="showKeyBoard" title="Mi安全键盘" @success="enterSuccess" @close="close"></payKeyboard>
 	</view>
 </template>
 
 <script>
+	import payKeyboard from '@/components/mi-payKeyboard/mi-payKeyboard.vue'
 	export default {
+		components: {
+			payKeyboard
+		},
 		data() {
 			return {
+				showKeyBoard: false,
 				carts: [],
 				allChecked: false,
 				total: '0',
@@ -82,9 +88,8 @@
 							let newJsonParam = JSON.parse(JSON.stringify(res.data.object).replace(/addressId/g,
 								"value"));
 							newJsonParam = JSON.parse(JSON.stringify(newJsonParam).replace(/message/g,
-							"text"));
+								"text"));
 							this.range = newJsonParam
-							console.log(JSON.stringify(newJsonParam))
 						}
 					}
 				})
@@ -139,7 +144,12 @@
 				this.carts[i].quantity = e
 				this.getTotal()
 			},
-			gotoSettlement() {
+			// 打开输入框
+			openModal() {
+				this.showKeyBoard = true
+			},
+			// 输入密码后的回调
+			enterSuccess(passStr) {
 				if (this.address == '') {
 					setTimeout(() => {
 						this.dialogToggle("请选择地址");
@@ -157,16 +167,15 @@
 						carts: this.carts,
 						canteenId: this.canteenId,
 						userId: user.userId,
-						addressId: this.address
+						addressId: this.address,
+						payPassword:passStr
 					},
 					header: {
 						'content-type': 'application/json'
 					},
 					success: res => {
 						if (res.data.code == 200) {
-
 							user.balance = res.data.object.balance;
-							//console.log(JSON.stringify(user));
 							uni.setStorageSync('user', user);
 							setTimeout(() => {
 								this.dialogToggle(res.data.message);
@@ -174,8 +183,15 @@
 									uni.hideToast();
 								}, 1000)
 							}, 0);
-
+				
 						} else if (res.data.code == 205) {
+							setTimeout(() => {
+								this.dialogToggle(res.data.message);
+								setTimeout(() => {
+									uni.hideToast();
+								}, 1000)
+							}, 0);
+						} else if (res.data.code == 201){
 							setTimeout(() => {
 								this.dialogToggle(res.data.message);
 								setTimeout(() => {
@@ -185,6 +201,14 @@
 						}
 					}
 				})
+				this.showKeyBoard = false
+			},
+			// 点击[取消] 关闭输入框 的回调
+			close() {
+				this.showKeyBoard = false
+			},
+			gotoSettlement() {
+				
 			},
 			dialogToggle(type) {
 				uni.showToast({

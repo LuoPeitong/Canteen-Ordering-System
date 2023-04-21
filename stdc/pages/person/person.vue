@@ -7,7 +7,7 @@
 			</view>
 			<view class="down">
 				<view class="balance">余额:¥{{user.balance}}</view>
-				<view class="recharge" @tap="openModal" style="text-decoration:underline">充值</view>
+				<view class="recharge" @click="inputDialogToggle" style="text-decoration:underline">充值</view>
 			</view>
 			<view>
 				<!-- 输入框示例 -->
@@ -44,7 +44,8 @@
 		data() {
 			return {
 				showKeyBoard: false,
-				user: {}
+				user: {},
+				money: 0,
 			}
 		},
 		mounted() {
@@ -55,9 +56,50 @@
 			openModal() {
 				this.showKeyBoard = true
 			},
-			// 输入正确的回调
-			enterSuccess(password) {
-				console.log(password) // 输入的密码
+			// 输入密码后的回调
+			enterSuccess(passStr) {
+				uni.request({
+					url: this.$baseUrl + "api/recharge",
+					method: 'post',
+					data: {
+						userId: this.user.userId,
+						balance: this.user.balance + this.money * 1.0,
+						payPassword: passStr
+					},
+					header: {
+						'content-type': 'application/json'
+					},
+					success: res => {
+						if (res.data.code == 200) {
+							this.user = res.data.object;
+							uni.setStorageSync('user', this.user);
+							setTimeout(() => {
+								this.dialogToggle("充值成功");
+								setTimeout(() => {
+									// 关闭窗口后，恢复默认内容
+									this.$refs.inputDialog.close()
+								}, 2000)
+							}, 0);
+						} else if (res.data.code == 201) {
+							setTimeout(() => {
+								this.dialogToggle("密码错误");
+								setTimeout(() => {
+									// 关闭窗口后，恢复默认内容
+									this.$refs.inputDialog.close()
+								}, 2000)
+							}, 0);
+						}
+						else{
+							setTimeout(() => {
+								this.dialogToggle("充值失败");
+								setTimeout(() => {
+									// 关闭窗口后，恢复默认内容
+									this.$refs.inputDialog.close()
+								}, 2000)
+							}, 0);
+						}
+					}
+				})
 				this.showKeyBoard = false
 			},
 			// 点击[取消] 关闭输入框 的回调
@@ -75,33 +117,8 @@
 				this.$refs.inputDialog.open()
 			},
 			dialogInputConfirm(val) {
-				this.user.balance += val * 1.0;
-				//console.log(this.user.balance);
-				//console.log(JSON.stringify(this.user))
-				uni.request({
-					url: this.$baseUrl + "api/recharge",
-					method: 'post',
-					data: {
-						userId: this.user.userId,
-						balance: this.user.balance
-					},
-					header: {
-						'content-type': 'application/json'
-					},
-					success: res => {
-						if (res.data.code == 200) {
-							this.user = res.data.object;
-							uni.setStorageSync('user', this.user);
-							setTimeout(() => {
-								this.dialogToggle("充值成功");
-								setTimeout(() => {
-									// 关闭窗口后，恢复默认内容
-									this.$refs.inputDialog.close()
-								}, 2000)
-							}, 0);
-						}
-					}
-				})
+				this.money = val
+				this.openModal()
 			},
 			dialogToggle(type) {
 				uni.showToast({
