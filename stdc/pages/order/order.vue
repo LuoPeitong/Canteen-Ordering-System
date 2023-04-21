@@ -95,7 +95,33 @@
 				return `left-${this.leftIndex > 3 ? this.leftIndex - 3 : 0}`;
 			}
 		},
+		onLoad(option) {
+			this.canteen = option.canteen;
+			this.floor = option.floor;
+			this.canteenId = option.canteenId;
+			this.cart = uni.getStorageSync('cart');
+		},
+		created(){
+			this.getCuisine()
+		},
 		methods: {
+			getCuisine(){
+				uni.request({
+					url: this.$baseUrl + "api/cuisineInit",
+					method: 'post',
+					data: {
+						canteenId: this.canteenId
+					},
+					header: {
+						'content-type': 'application/json'
+					},
+					success: res => {
+						if (res.data.code == 200) {
+							this.rightArray = res.data.object;
+						}
+					}
+				})
+			},
 			goto() {
 				this.carts = this.unique(this.carts, "name")
 				uni.setStorageSync('canteenId', this.canteenId);
@@ -224,27 +250,6 @@
 				const res = new Map()
 				return arr.filter((item) => !res.has(item[val]) && res.set(item[val], 1))
 			},
-		},
-		onLoad(option) {
-			this.canteen = option.canteen;
-			this.floor = option.floor;
-			this.canteenId = option.canteenId;
-			this.cart = uni.getStorageSync('cart');
-			uni.request({
-				url: "http://localhost:80/api/cuisineInit",
-				method: 'post',
-				data: {
-					canteenId: this.canteenId
-				},
-				header: {
-					'content-type': 'application/json'
-				},
-				success: res => {
-					if (res.data.code == 200) {
-						this.rightArray = res.data.object;
-					}
-				}
-			})
 		}
 	}
 </script>

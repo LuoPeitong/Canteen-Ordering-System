@@ -2,7 +2,7 @@
 	<view class="container">
 		<scroll-view class="top" scroll-y="true">
 			<view v-if="carts.length<1"><text>购物车中还没有商品哦~</text></view>
-			<uni-section v-else ="inputWrapper" type="line">
+			<uni-section v-else="inputWrapper" type="line">
 				<uni-data-select placeholder="请选择地址" class="selectInput" v-model="value" :localdata="range"
 					@change="change"></uni-data-select>
 			</uni-section>
@@ -48,43 +48,46 @@
 				allChecked: false,
 				total: '0',
 				canteenId: '',
-				address:'',
-				//range: [{value: 1,text: "篮球"},{value: 2,text: "足球"},{value: 3,text: "游泳"},],
-				range:[]
+				address: '',
+				range: [],
+				user: {}
 			}
 		},
-		mounted() {
-			var user = uni.getStorageSync('user');
-			uni.request({
-				url: this.$baseUrl + "api/getAddress",
-				method: 'post',
-				data: {
-					userId: user.userId
-				},
-				header: {
-					'content-type': 'application/json'
-				},
-				success: res => {
-					if (res.data.code == 200) {
-						
-						let newJsonParam=JSON.parse(JSON.stringify(res.data.object).replace(/addressId/g,"value"));
-						newJsonParam=JSON.parse(JSON.stringify(newJsonParam).replace(/message/g,"text"));
-						//console.log(JSON.stringify(newJsonParam))
-						//console.log(JSON.stringify(this.range))
-						this.range = newJsonParam
-						console.log(JSON.stringify(newJsonParam))
-					}
-				}
-			})
+		onShow() {
+			this.carts = uni.getStorageSync('carts');
+			//console.log(JSON.stringify(this.carts))
+			this.getTotal()
+		},
+		onLoad(option) {
+			this.canteenId = uni.getStorageSync('canteenId')
+		},
+		created() {
+			this.user = uni.getStorageSync('user')
+			this.getAddress()
 		},
 		methods: {
-			onShow() {
-				this.carts = uni.getStorageSync('carts');
-				//console.log(JSON.stringify(this.carts))
-				this.getTotal()
-			},
-			onLoad(option) {
-				this.canteenId = uni.getStorageSync('canteenId')
+			getAddress() {
+				uni.request({
+					url: this.$baseUrl + "api/getAddress",
+					method: 'post',
+					data: {
+						userId: this.user.userId
+					},
+					header: {
+						'content-type': 'application/json'
+					},
+					success: res => {
+						if (res.data.code == 200) {
+
+							let newJsonParam = JSON.parse(JSON.stringify(res.data.object).replace(/addressId/g,
+								"value"));
+							newJsonParam = JSON.parse(JSON.stringify(newJsonParam).replace(/message/g,
+							"text"));
+							this.range = newJsonParam
+							console.log(JSON.stringify(newJsonParam))
+						}
+					}
+				})
 			},
 			change(e) {
 				console.log(e)
@@ -137,7 +140,7 @@
 				this.getTotal()
 			},
 			gotoSettlement() {
-				if(this.address == ''){
+				if (this.address == '') {
 					setTimeout(() => {
 						this.dialogToggle("请选择地址");
 						setTimeout(() => {
@@ -154,7 +157,7 @@
 						carts: this.carts,
 						canteenId: this.canteenId,
 						userId: user.userId,
-						addressId:this.address
+						addressId: this.address
 					},
 					header: {
 						'content-type': 'application/json'
