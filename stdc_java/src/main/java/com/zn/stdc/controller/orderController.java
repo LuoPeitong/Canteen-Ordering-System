@@ -43,6 +43,9 @@ public class orderController {
         if(check==-1){
             return new Result(205,null,"余额不足");
         }
+        else if (check == -2){
+            return new Result(201,null,"密码错误");
+        }
         tcoService.add(carts, check);
 
         User user = userService.getByUserId(order.getUserId());
