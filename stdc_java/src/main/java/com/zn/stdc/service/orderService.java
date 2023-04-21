@@ -35,6 +35,12 @@ public class orderService {
     addressDAO addressDAO;
 
     public int addSettlement(orderResponse order){
+        // 密码校验
+        User user = userDAO.findByUserId(order.getUserId());
+        if(!user.getPayPassword().equals(order.getPayPassword())){
+            return -2;
+        }
+
         List<cuisineAllResult> carts = order.getCarts();
 
         //计算总价
@@ -43,7 +49,7 @@ public class orderService {
             sum+=c.getPrice()*c.getQuantity();
         }
 
-        User user = userDAO.findByUserId(order.getUserId());
+
 
         //判断余额是否够结算。总价比余额小的时候为true
         if( user.getBalance() - sum < 0){
