@@ -18,6 +18,7 @@ public class User {
     private String name;
     private double balance;
     private String studentNo;
+    private String payPassword;
 
     public int getUserId() {
         return userId;
@@ -65,5 +66,13 @@ public class User {
 
     public void setStudentNo(String studentNo) {
         this.studentNo = studentNo;
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
     }
 }

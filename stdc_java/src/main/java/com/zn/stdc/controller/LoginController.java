@@ -46,6 +46,7 @@ public class LoginController {
         }
     }
 
+    //充值
     @CrossOrigin
     @PostMapping(value = "/api/recharge")
     @ResponseBody
@@ -55,5 +56,19 @@ public class LoginController {
         user1.setBalance(requestUser.getBalance());
         userService.add(user1);
         return new Result(200,user1,"成功");
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/api/payVerification")
+    @ResponseBody
+    public Result payVerification(@RequestBody User requestUser){
+        User user1 = userService.getByUserId(requestUser.getUserId());
+
+        if(requestUser.getPayPassword().equals(user1.getPayPassword())){
+
+            return new Result(200,null,"密码正确");
+        } else{
+            return new Result(201,null,"密码错误");
+        }
     }
 }
