@@ -152,7 +152,8 @@
 				
 				
 				// 测试数据  在此处可添加个人的业务代码
-				var isTrue = true
+				
+				var isTrue = false
 				if(isTrue) {
 					this.$emit('success', passStr)
 					this.passwordError = false
@@ -186,7 +187,7 @@
 	}
 	.keyboard-content{
 		background: rgba($color: #000000, $alpha: .7);
-		height: 100vh;
+		height: 93vh;
 		width: 100%;
 		position: fixed;
 		top: 0;
