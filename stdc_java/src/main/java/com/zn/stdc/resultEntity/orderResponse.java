@@ -10,6 +10,7 @@ public class orderResponse {
     private int userId;
     private int canteenId;
     private int addressId;
+    private String payPassword;
 
     public List<cuisineAllResult> getCarts() {
         return carts;
@@ -41,5 +42,13 @@ public class orderResponse {
 
     public void setAddressId(int addressId) {
         this.addressId = addressId;
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
     }
 }
