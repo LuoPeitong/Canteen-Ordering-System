@@ -50,13 +50,13 @@
 				{
 					"iconPath":"",
 					"selectedIconPath":"",
-					"text":"首页",
+					"text":"菜品",
 					"pagePath":"pages/manage_dishes/manage_dishes"
 				},
 				{
 					"iconPath":"",
 					"selectedIconPath":"",
-					"text":"首页",
+					"text":"订单",
 					"pagePath":"pages/manage_order/manage_order"
 				}
 			]

@@ -39,7 +39,7 @@
 							<view class="rigth_title">
 								{{item.classes}}
 							</view>
-							<view class="s_main" v-for="(items,j) in item.list" :key='j'>
+							<view class="s_main" v-if="items.status===1" v-for="(items,j) in item.list" :key='j'>
 								<view class="s_main_left" :style="{background: 'url('+items.picUrl+')'}"></view>
 								<view class="s_main_right">
 									<view class="name">{{items.name}}</view>

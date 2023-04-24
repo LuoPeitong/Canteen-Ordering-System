@@ -10,6 +10,5 @@ public interface CuisineDAO extends JpaRepository<Cuisine,Integer> {
     //获取菜单
     List<Cuisine> findByCanteenIdOrderByClasses(int canteenId);
 
-
     Cuisine findAllByCuisineId(int cuisineId);
 }

@@ -44,7 +44,7 @@
 					return;
 				}
 				uni.request({
-					url: "http://localhost:80/api/canteenLogin",
+					url: this.$baseUrl + "api/canteenLogin",
 					method: 'post',
 					data: {
 						username: this.username,

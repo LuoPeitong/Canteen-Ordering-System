@@ -9,6 +9,7 @@ public class cuisineAllResult implements Serializable {
     private double price;
     private int quantity;
     private int cuisineId;
+    private int status;
 
     public int getCuisineId() {
         return cuisineId;
@@ -48,5 +49,13 @@ public class cuisineAllResult implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

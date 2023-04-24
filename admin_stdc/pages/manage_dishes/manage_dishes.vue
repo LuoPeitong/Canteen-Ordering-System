@@ -40,8 +40,9 @@
 						<view class="load-button1">
 							<button class="button1"size="mini" type="primary" @tap="editButton(items,item.classes)">编辑</button>
 						</view>
-						<view class="delButton" @click="delButton(items.cuisineId)">
-							<text>删除</text>
+						<view class="delButton" @click="delButton(items)">
+							<view v-if="items.status===1"><text>下架</text></view>
+							<view v-else-if="items.status===0"><text>上架</text></view>
 						</view>
 					</view>
 				</view>
@@ -65,7 +66,7 @@
 			let canteenId = uni.getStorageSync('canteen').canteenId
 			//console.log(JSON.stringify(user))
 			uni.request({
-				url: "http://localhost:80/api/cuisineInit",
+				url: this.$baseUrl + "api/cuisineInit",
 				method: 'post',
 				data: {
 					canteenId: canteenId
@@ -92,7 +93,7 @@
 				let canteenId = uni.getStorageSync('canteen').canteenId
 				console.log(canteenId)
 				uni.request({
-					url: "http://localhost:80/api/addCuisine",
+					url: this.$baseUrl + "api/addCuisine",
 					method: 'post',
 					data: {
 						cuisinePrice: this.cuisinePrice,
@@ -123,13 +124,13 @@
 					}
 				})
 			},
-			delButton(cuisineId){
-				console.log(cuisineId)
+			delButton(cuisine){
 				uni.request({
-					url: "http://localhost:80/api/delCuisine",
+					url: this.$baseUrl + "api/delCuisine",
 					method: 'post',
 					data: {
-						cuisineId:cuisineId
+						cuisineId:cuisine.cuisineId,
+						status:cuisine.status
 					},
 					header: {
 						'content-type': 'application/json'
@@ -142,7 +143,7 @@
 									uni.hideToast();
 								}, 1000)
 							}, 0);
-						} else if (res.data.code == 400) {
+						} else{
 							setTimeout(() => {
 								this.dialogToggle("失败");
 								setTimeout(() => {

@@ -37,11 +37,20 @@ public class CuisineController {
         return new Result(200,null,"改动成功");
     }
 
+    //下架菜品
     @CrossOrigin
     @PostMapping(value = "/api/delCuisine")
     @ResponseBody
     public Result delAddress(@RequestBody Cuisine cuisine){
-        cuisineService.delCuisine(cuisine);
-        return new Result(200,null,"删除成功");
+
+        Cuisine c = cuisineService.findAllByCuisineId(cuisine);
+        c.setStatus((c.getStatus()==1?0:1));
+        if(c!=null){
+            cuisineService.addCuisine(c);
+            return new Result(200,c,"操作成功");
+        }
+        else{
+            return new Result(201,null,"操作失败");
+        }
     }
 }

@@ -39,7 +39,7 @@
 			Init(){
 				let canteenId = uni.getStorageSync('canteen').canteenId
 				uni.request({
-					url: "http://localhost:80/api/getCanteenOrder",
+					url: this.$baseUrl + "api/getCanteenOrder",
 					method: 'post',
 					data: {
 						canteenId: canteenId
@@ -56,7 +56,7 @@
 			},
 			planButton(item){
 				uni.request({
-					url: "http://localhost:80/api/editCanteenOrder",
+					url: this.$baseUrl + "api/editCanteenOrder",
 					method: 'post',
 					data: {
 						orderId: item.orderId,

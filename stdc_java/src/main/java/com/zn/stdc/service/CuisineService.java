@@ -16,12 +16,12 @@ public class CuisineService {
     CuisineDAO cuisineDAO;
 
     public void addCuisine(Cuisine cuisine){
-        cuisine.setCuisinePicUrl("/static/logo.png");
         cuisineDAO.save(cuisine);
     }
 
-    public void delCuisine(Cuisine cuisine){
-        cuisineDAO.deleteById(cuisine.getCuisineId());
+    public Cuisine findAllByCuisineId(Cuisine cuisine){
+
+        return cuisineDAO.findAllByCuisineId(cuisine.getCuisineId());
     }
 
     public List<cuisineResult> getInit(int canteenId){
@@ -36,7 +36,6 @@ public class CuisineService {
         cuisineResult cuisineResult = new cuisineResult();
         Cuisine cuisine = new Cuisine();
         for (int i = 0; i < allList.size(); i++){
-        //for (Cuisine cuisine:allList){
             cuisine = allList.get(i);
             if(cuisineResult.getClasses()==null){
                 cuisineResult.setClasses(cuisine.getClasses());
@@ -54,6 +53,7 @@ public class CuisineService {
             cuisineAllResult.setPrice(cuisine.getCuisinePrice());
             cuisineAllResult.setCuisineId(cuisine.getCuisineId());
             cuisineAllResult.setQuantity(0);
+            cuisineAllResult.setStatus(cuisine.getStatus());
             list3.add(cuisineAllResult);
             cuisineAllResult = new cuisineAllResult();
             if(i==allList.size()-1) {

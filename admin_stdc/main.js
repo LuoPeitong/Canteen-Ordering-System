@@ -3,6 +3,8 @@ import App from './App'
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
+
+Vue.prototype.$baseUrl = "http://localhost:8080/"
 App.mpType = 'app'
 const app = new Vue({
     ...App

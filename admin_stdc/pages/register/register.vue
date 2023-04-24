@@ -51,7 +51,7 @@
 					return;
 				}
 				uni.request({
-					url: "http://localhost:80/api/canteenRegister",
+					url: this.$baseUrl + "api/canteenRegister",
 					method: 'post',
 					data: {
 						username: this.username,

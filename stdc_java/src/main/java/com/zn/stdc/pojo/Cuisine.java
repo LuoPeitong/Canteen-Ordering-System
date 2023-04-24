@@ -15,9 +15,9 @@ public class Cuisine {
     private int canteenId;
     private double cuisinePrice;
     private String classes;
-    private String introduction;
     private String cuisinePicUrl;
     private String cuisineName;
+    private int status;
 
     public int getCuisineId() {
         return cuisineId;
@@ -51,14 +51,6 @@ public class Cuisine {
         this.classes = classes;
     }
 
-    public String getIntroduction() {
-        return introduction;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
-    }
-
     public String getCuisinePicUrl() {
         return cuisinePicUrl;
     }
@@ -73,5 +65,13 @@ public class Cuisine {
 
     public void setCuisineName(String cuisineName) {
         this.cuisineName = cuisineName;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
