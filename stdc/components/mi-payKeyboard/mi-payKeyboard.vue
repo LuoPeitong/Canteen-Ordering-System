@@ -153,9 +153,9 @@
 			// 点击忘记密码 可跳转页面或自定义业务
 			forgetPass() {
 				this.cancel()
-				uni.showToast({
-					title: '忘记密码'
-				})
+				uni.navigateTo({
+					url: '/pages/password/password'
+				});
 			}
 		}
 	}
