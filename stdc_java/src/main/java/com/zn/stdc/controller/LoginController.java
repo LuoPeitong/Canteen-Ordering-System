@@ -61,4 +61,28 @@ public class LoginController {
         }
         return new Result(201,null,"密码错误");
     }
+
+    // 修改支付密码
+    @CrossOrigin
+    @PostMapping(value = "/api/editPassword")
+    @ResponseBody
+    public Result editPassword(@RequestBody User requestUser){
+        if(requestUser.getPayPassword().length()!=6){
+            return new Result(201,null,"密码只能为6位数字");
+        }
+        for (char c : requestUser.getPayPassword().toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return new Result(201,null,"密码只能为6位数字");
+            }
+        }
+        User user1 = userService.getByUserId(requestUser.getUserId());
+
+        if(requestUser.getPassword().equals(user1.getPassword())){
+
+            user1.setPayPassword(requestUser.getPayPassword());
+            userService.add(user1);
+            return new Result(200,user1,"成功");
+        }
+        return new Result(201,null,"密码设置失败");
+    }
 }
