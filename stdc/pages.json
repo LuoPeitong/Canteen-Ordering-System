@@ -97,6 +97,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/password/password",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
