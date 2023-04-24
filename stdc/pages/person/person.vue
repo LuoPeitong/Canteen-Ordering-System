@@ -30,6 +30,11 @@
 				<image src="/static/icon//evaluate.png"></image>
 				<text style="align-right">评价</text>
 			</view>
+			
+			<view class="function" @click="gotoPassword">
+				<image src="/static/icon//forget.png"></image>
+				<text style="align-right">设置密码</text>
+			</view>
 		</view>
 		<payKeyboard v-if="showKeyBoard" title="Mi安全键盘" @success="enterSuccess" @close="close"></payKeyboard>
 	</view>
@@ -140,6 +145,11 @@
 			gotoComment() {
 				uni.navigateTo({
 					url: '/pages/comment/comment'
+				});
+			},
+			gotoPassword() {
+				uni.navigateTo({
+					url: '/pages/password/password'
 				});
 			}
 		}
