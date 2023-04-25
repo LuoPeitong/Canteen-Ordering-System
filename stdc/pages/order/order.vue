@@ -97,7 +97,7 @@
 		},
 		methods: {
 			getImageUrl(url) {
-				return this.$baseUrl2 + url; // 假设商家端上传的图片在/uploads/目录下
+				return this.$baseUrl2 + url;
 			},
 			getCuisine() {
 				uni.request({
@@ -126,9 +126,7 @@
 			},
 			gotoSettlement() {
 				this.carts = this.unique(this.carts, "name")
-				//console.log(JSON.stringify(this.carts))
 				var user = uni.getStorageSync('user');
-				//console.log(JSON.stringify(user))
 				uni.request({
 					url: this.$baseUrl + "api/Settlement",
 					method: 'post',
@@ -170,13 +168,6 @@
 					duration: 2000 //持续时间为 2秒
 				})
 			},
-			// 失去焦点
-			blur(res) {
-				uni.showToast({
-					title: 'blur事件，输入值为：' + res.value,
-					icon: 'none'
-				})
-			},
 			/* 初始化滚动区域 */
 			initScrollView() {
 				return new Promise((resolve, reject) => {
@@ -195,10 +186,12 @@
 				let searchResult = this.rightArray.filter((item) =>
 					item.classes.includes(this.searchValue)
 				);
+				console.log(JSON.stringify(searchResult))
+				console.log(JSON.stringify(this.rightArray))
 				for (let i = 0; i < this.rightArray.length; i++) {
-					if (searchResult === this.rightArray.classes) {
-
-						console.log(JSON.stringify(searchResult))
+					if (searchResult[0].classes === this.rightArray[i].classes) {
+						this.leftIndex = i
+						this.scrollInto = `item-${i}`
 					}
 				}
 			},
@@ -262,10 +255,6 @@
 	.left_item {
 		height: 80rpx;
 	}
-
-	/*.select {
-		background-color: #4CD964;
-	}*/
 
 	.head {
 		width: 100%;
