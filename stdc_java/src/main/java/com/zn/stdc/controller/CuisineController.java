@@ -7,11 +7,11 @@ import com.zn.stdc.resultEntity.cuisineResult;
 import com.zn.stdc.service.CuisineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -51,6 +51,25 @@ public class CuisineController {
         }
         else{
             return new Result(201,null,"操作失败");
+        }
+    }
+
+    //上传图片
+    @CrossOrigin
+    @PostMapping(value = "/api/upload")
+    @ResponseBody
+    public String upload(@RequestParam("file") MultipartFile file){
+
+        try {
+            String fileName = file.getOriginalFilename();
+            // TODO: 根据需要生成新的文件名
+            String filePath = "D:\\workspace\\Canteen-Ordering-System\\admin_stdc\\static\\cuisinePic\\" + fileName;
+            File dest = new File(filePath);
+            file.transferTo(dest);
+            return "/static/cuisinePic/"+fileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error";
         }
     }
 }

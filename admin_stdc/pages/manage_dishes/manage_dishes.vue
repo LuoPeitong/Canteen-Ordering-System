@@ -3,8 +3,9 @@
 		<view class="addBox">
 			<view class="pickPic">
 				<view class="add-btn">
-					<image src="../../static/add-icon.png" style="width: 200rpx;height:200rpx;" @click="openFile"
-						mode=""></image>
+					<!-- <image src="../../static/add-icon.png" style="width: 200rpx;height:200rpx;" @click="openFile"
+						mode=""></image> -->
+					<uni-file-picker v-model="imageValue" fileMediatype="image" mode="grid" limit="1" @select="upload"/>
 				</view>
 
 			</view>
@@ -31,14 +32,15 @@
 					{{item.classes}}
 				</view>
 				<view class="list_main" v-for="(items,j) in item.list" :key='j'>
-					<view class="list_picBox" :style="{background: 'url('+items.picUrl+')'}"></view>
+					<img class="list_picBox" :src="items.picUrl">
 					<view class="list_message">
 						<view class="list_name">{{items.name}}</view>
 						<view class="list_price">￥{{items.price}}</view>
 					</view>
 					<view class="list_edit">
 						<view class="load-button1">
-							<button class="button1"size="mini" type="primary" @tap="editButton(items,item.classes)">编辑</button>
+							<button class="button1" size="mini" type="primary"
+								@tap="editButton(items,item.classes)">编辑</button>
 						</view>
 						<view class="delButton" @click="delButton(items)">
 							<view v-if="items.status===1"><text>下架</text></view>
@@ -58,8 +60,9 @@
 				cuisinePrice: '',
 				classes: '',
 				cuisineName: '',
-				cuisineId:'',
-				CuisineList: []
+				cuisineId: '',
+				CuisineList: [],
+				cuisinePicUrl:''
 			}
 		},
 		mounted() {
@@ -82,12 +85,25 @@
 			})
 		},
 		methods: {
-			editButton(items,classes){
+			upload(e) {
+				const tempFilePaths = e.tempFilePaths; //e是获取的图片源
+				uni.uploadFile({
+					url: this.$baseUrl + 'api/upload', //上传图片的后端接口
+					filePath: tempFilePaths[0],
+					name: 'file',
+					success: res => {
+						console.log(res.data)
+						this.cuisinePicUrl = res.data
+						console.log(this.cuisinePicUrl, "头像")
+					}
+				})
+			},
+			editButton(items, classes) {
 				console.log(JSON.stringify(items))
-				this.cuisinePrice= items.price;
-				this.classes= classes;
-				this.cuisineName= items.name;
-				this.cuisineId=items.cuisineId;
+				this.cuisinePrice = items.price;
+				this.classes = classes;
+				this.cuisineName = items.name;
+				this.cuisineId = items.cuisineId;
 			},
 			addSubmit() {
 				let canteenId = uni.getStorageSync('canteen').canteenId
@@ -100,7 +116,8 @@
 						classes: this.classes,
 						cuisineName: this.cuisineName,
 						canteenId: canteenId,
-						cuisineId:this.cuisineId
+						cuisineId: this.cuisineId,
+						cuisinePicUrl: this.cuisinePicUrl
 					},
 					header: {
 						'content-type': 'application/json'
@@ -124,13 +141,13 @@
 					}
 				})
 			},
-			delButton(cuisine){
+			delButton(cuisine) {
 				uni.request({
 					url: this.$baseUrl + "api/delCuisine",
 					method: 'post',
 					data: {
-						cuisineId:cuisine.cuisineId,
-						status:cuisine.status
+						cuisineId: cuisine.cuisineId,
+						status: cuisine.status
 					},
 					header: {
 						'content-type': 'application/json'
@@ -143,7 +160,7 @@
 									uni.hideToast();
 								}, 1000)
 							}, 0);
-						} else{
+						} else {
 							setTimeout(() => {
 								this.dialogToggle("失败");
 								setTimeout(() => {
@@ -153,61 +170,6 @@
 						}
 					}
 				})
-			},
-			openFile() {
-				uni.chooseFile({
-					count: 1, //默认100
-					extension: ['.jpg', '.png', '.jpeg'],
-					success: (res) => {
-						console.log(res);
-						if (res.tempFiles[0].size / 1024 / 1024 > 20) {
-							this.$refs.uToast.show({
-								title: '附件大小不能超过20M',
-								type: 'warning',
-							})
-							return;
-						}
-						this.resultPath(res.tempFilePaths[0], res.tempFiles[0].name);
-					}
-				});
-			},
-			// 选取的文件路径获取后回调
-			resultPath(path, fileName) {
-				console.log(path)
-				console.log(fileName)
-				uni.showLoading({
-					title: '上传中...',
-				});
-				uni.uploadFile({
-					url: base.baseUrl + '/upload',
-					filePath: path,
-					header: {
-						// "Authorization": "xxx",
-						// 'content-type':'multipart/form-data; boundary=----WebKitFormBoundaryHEdN1AIjcdUkAaXM',
-					},
-					formData: {
-						// 'user': 'test'
-					},
-					success: (uploadFileRes) => {
-						let obj = JSON.parse(uploadFileRes.data);
-						if (obj.code == 0) {
-							this.getOssUrl(obj.tmpFileIds[obj.id], fileType, fileName);
-						} else {
-							uni.showToast({
-								title: uploadFileRes.data.returnMessage,
-								icon: 'none',
-								duration: 1500
-							})
-						}
-					},
-					fail: (err) => {
-						this.$refs.uToast.show({
-							title: '上传失败',
-							type: 'error',
-						});
-						uni.hideLoading();
-					}
-				});
 			},
 			dialogToggle(type) {
 				uni.showToast({
@@ -236,12 +198,12 @@
 		border-bottom: 2px solid black;
 		padding-top: 25rpx;
 	}
-	
-	.cuisineList{
-		height:850rpx;
-		width:1000rpx;
+
+	.cuisineList {
+		height: 850rpx;
+		width: 1000rpx;
 	}
-	
+
 	.pickPic {
 		float: left;
 
@@ -250,61 +212,64 @@
 
 		/*border-style: solid;*/
 	}
-	
-	.title{
+
+	.title {
 		padding-left: 20rpx;
 	}
-	
-	.list{
-		border-bottom: 2px solid black;width:80%;
-		
+
+	.list {
+		border-bottom: 2px solid black;
+		width: 80%;
+
 	}
-	
-	.list_main{
-		width:80%;
-		height:180rpx;
+
+	.list_main {
+		width: 80%;
+		height: 180rpx;
 		/*border-style: solid;*/
-		margin-top:30rpx;
-		margin-left:50rpx;
+		margin-top: 30rpx;
+		margin-left: 50rpx;
 		background-color: #CCFFFF;
-		
+
 		border-radius: 10px;
 	}
-	
-	.list_picBox{
-		float:left;
-		width:140rpx;
-		height:140rpx;
-		margin-top:10rpx;
-		margin-left:20rpx;
-	}
-	.list_message{
-		height:140rpx;
-		width:200rpx;
-		/*border-style: solid;*/
-		float:left;
-		margin-top:10rpx;
-		margin-left:10rpx;
-	}
-	
-	
-	.list_name{
-		width:130rpx;
-		height:60rpx;
-	}
-	
-	.list_price{
-		width:130rpx;
-		height:60rpx;
-	}
-	
-	.list_edit{
-		height:140rpx;
+
+	.list_picBox {
 		float: left;
-		width:200rpx;
-		margin-top:10rpx;
-		margin-left:10rpx;
+		width: 140rpx;
+		height: 140rpx;
+		margin-top: 10rpx;
+		margin-left: 20rpx;
 	}
+
+	.list_message {
+		height: 140rpx;
+		width: 200rpx;
+		/*border-style: solid;*/
+		float: left;
+		margin-top: 10rpx;
+		margin-left: 10rpx;
+	}
+
+
+	.list_name {
+		width: 130rpx;
+		height: 60rpx;
+	}
+
+	.list_price {
+		width: 130rpx;
+		height: 60rpx;
+	}
+
+	.list_edit {
+		height: 140rpx;
+		float: left;
+		width: 200rpx;
+		margin-top: 10rpx;
+		margin-left: 10rpx;
+	}
+
 	.Traits {
 		float: left;
 
@@ -352,26 +317,32 @@
 		margin-top: 20rpx;
 		margin-left: 20rpx;
 	}
-	
+
 	.load-button1 {
 		width: 70%;
 		height: 50rpx;
 	}
-	
+
 	.button1 {
 		width: 100%;
 		height: 50rpx;
-		margin-top:10rpx;
+		margin-top: 10rpx;
 		margin-left: 20rpx;
 	}
-	
-	.delButton{
-		width:100rpx;
-		margin-top:20rpx;
-		margin-left:20rpx;
+
+	.delButton {
+		width: 100rpx;
+		margin-top: 20rpx;
+		margin-left: 20rpx;
 		border: 1px solid black;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+
+	.add-btn {
+		width: 200rpx;
+		height: 200rpx;
+
 	}
 </style>

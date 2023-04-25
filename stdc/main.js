@@ -6,7 +6,7 @@ import Vue from 'vue'
 Vue.config.productionTip = false
 
 Vue.prototype.$baseUrl = "http://localhost:8080/"
-
+Vue.prototype.$baseUrl2 = "http://localhost:8082/"
 App.mpType = 'app'
 const app = new Vue({
     ...App

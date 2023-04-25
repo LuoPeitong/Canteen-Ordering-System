@@ -3,18 +3,8 @@
 		<view class="head">
 			<text>{{user.studentNo}} {{user.name}} 余额: {{user.balance}}</text>
 		</view>
-		<view class="uni-margin-wrap">
-			<swiper class="swiper" circular indicator-dots="true" autoplay="true" interval="3000" duration="500">
-				<swiper-item v-for="(item, index) in info" :key="index">
-					<view class="swiper-item">
-						<image class="image" :src="item.url" mode="center" @click="onBanner(index)" />
-					</view>
-				</swiper-item>
-			</swiper>
-		</view>
 		<view>
 			<view class="position-group">
-
 				<!-- 一级循环 -->
 				<view class="pronames_one" v-for="(item,index) in positionlist" :key="index"
 					:class="item.listStare?'oneshow':'onehide'">
@@ -47,19 +37,6 @@
 					balance: 0,
 					studentNo: ''
 				},
-				info: [{
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 A'
-					},
-					{
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 B'
-					},
-					{
-						url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/094a9dc0-50c0-11eb-b680-7980c8a877b8.jpg',
-						content: '内容 C'
-					}
-				],
 				positionSele: true,
 				positionlist: []
 			}
@@ -84,12 +61,7 @@
 						.canteenList[index2].floor + '&canteenId=' + positionlist[index]
 						.canteenList[index2].canteenId
 				})
-			},
-			//轮播图点击事件
-			onBanner(index) {
-				//console.log(22222, index);
-			},
-
+			}
 		},
 		// 一进来就执行的东西
 		onLoad() {

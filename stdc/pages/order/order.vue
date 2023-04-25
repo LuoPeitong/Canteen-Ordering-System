@@ -11,8 +11,7 @@
 			</view>
 			<view class="head-bottom">
 				<uni-section type="line">
-					<uni-search-bar @confirm="search" :focus="true" v-model="searchValue" @blur="blur" @focus="focus"
-						@input="input" @cancel="cancel" @clear="clear">
+					<uni-search-bar @confirm="search" :focus="true" v-model="searchValue">
 					</uni-search-bar>
 				</uni-section>
 			</view>
@@ -40,7 +39,7 @@
 								{{item.classes}}
 							</view>
 							<view class="s_main" v-if="items.status===1" v-for="(items,j) in item.list" :key='j'>
-								<view class="s_main_left" :style="{background: 'url('+items.picUrl+')'}"></view>
+								<img class="s_main_left" :src="getImageUrl(items.picUrl)">
 								<view class="s_main_right">
 									<view class="name">{{items.name}}</view>
 									<view class="price">¥{{items.price}}</view>
@@ -52,16 +51,12 @@
 								</view>
 							</view>
 						</view>
-						<!--<view class="fill-last" :style="{ height: fillHeight + 'px' }"></view>-->
 					</scroll-view>
 				</view>
 				<view class="main-right-bottom">
 					<view class="main-right-bottom-left">
 						<button type="default" plain="true" @click="goto" style="height:100%;width:100%;">购物车</button>
 					</view>
-					<!--<view class="main-right-bottom-right">
-						<button type="primary" plain="true" style="height:100%;width:100%;" @click="gotoSettlement">立即付款</button>
-					</view>-->
 				</view>
 			</view>
 		</view>
@@ -75,10 +70,7 @@
 				canteen: '',
 				floor: '',
 				canteenId: '',
-				searchValue: '123123',
-
-				//leftArray: ['一', '二', '三', '四'],
-				//rightArray: [{title: "第一类商品",list: [{picUrl: '/static/logo.png',name: '菜名1',price: '6',quantity: 0}, {picUrl: '/static/logo.png',name: '菜名2',price: '7',quantity: 0}, {picUrl: '/static/logo.png',name: '菜名3',price: '5',quantity: 0}]}, {title: "第二类商品",list: [{picUrl: '/static/logo.png',name: '菜名4',price: '3',quantity: 0}, {picUrl: '/static/logo.png',name: '菜名5',price: '1.5',quantity: 0}, {picUrl: '/static/logo.png',name: '菜名6',price: '6',quantity: 0}]}, {title: "第三类商品",list: [{picUrl: '/static/logo.png',name: '菜名7',price: '5',quantity: 0}, {picUrl: '/static/logo.png',name: '菜名8',price: '6',quantity: 0}, {picUrl: '/static/logo.png',name: '菜名9',price: '5',quantity: 0}]}],
+				searchValue: '',
 				rightArray: [],
 				scrollHeight: 400,
 				scrollInto: "",
@@ -86,7 +78,6 @@
 				topArr: [],
 				carts: [],
 				scrollTopSize: 0
-				//fillHeight: 0, // 填充高度，用于最后一项低于滚动区域时使用
 			}
 		},
 		computed: {
@@ -101,11 +92,14 @@
 			this.canteenId = option.canteenId;
 			this.cart = uni.getStorageSync('cart');
 		},
-		created(){
+		created() {
 			this.getCuisine()
 		},
 		methods: {
-			getCuisine(){
+			getImageUrl(url) {
+				return this.$baseUrl2 + url; // 假设商家端上传的图片在/uploads/目录下
+			},
+			getCuisine() {
 				uni.request({
 					url: this.$baseUrl + "api/cuisineInit",
 					method: 'post',
@@ -176,35 +170,13 @@
 					duration: 2000 //持续时间为 2秒
 				})
 			},
+			// 失去焦点
 			blur(res) {
 				uni.showToast({
 					title: 'blur事件，输入值为：' + res.value,
 					icon: 'none'
 				})
 			},
-			focus(e) {
-				uni.showToast({
-					title: 'focus事件，输出值为：' + e.value,
-					icon: 'none'
-				})
-			},
-			input(res) {
-				console.log('----input:', res)
-			},
-			clear(res) {
-				uni.showToast({
-					title: 'clear事件，清除值为：' + res.value,
-					icon: 'none'
-				})
-			},
-
-			cancel(res) {
-				uni.showToast({
-					title: '点击取消，输入值为：' + res.value,
-					icon: 'none'
-				})
-			},
-
 			/* 初始化滚动区域 */
 			initScrollView() {
 				return new Promise((resolve, reject) => {
@@ -219,7 +191,17 @@
 					}).exec();
 				});
 			},
+			search() {
+				let searchResult = this.rightArray.filter((item) =>
+					item.classes.includes(this.searchValue)
+				);
+				for (let i = 0; i < this.rightArray.length; i++) {
+					if (searchResult === this.rightArray.classes) {
 
+						console.log(JSON.stringify(searchResult))
+					}
+				}
+			},
 			// 点击左侧导航
 			onLeft(e) {
 				const index = e.currentTarget.dataset.index;
@@ -249,7 +231,7 @@
 			unique(arr, val) {
 				const res = new Map()
 				return arr.filter((item) => !res.has(item[val]) && res.set(item[val], 1))
-			},
+			}
 		}
 	}
 </script>
